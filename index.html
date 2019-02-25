@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'/>
+    <title>Foto Finder</title>
+    <link rel="stylesheet" type="text/css" href="normalize.css">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.7.1/js/all.js" integrity="sha384-eVEQC9zshBn0rFj4+TU78eNA19HMNigMviK/PU/FFjLXqa/GKPgX58rvt5Z8PLs7" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width= device-width, initial-scale=1">
+  </head>
+  <body>
+    <header>
+      <h1>FOTO<img class="camera" src="assets/foto-finder-logo.svg">FINDER</h1>
+      <input type="search" id="search" class="search" placeholder="Search">
+      <button id="search-btn" class="search"><img class="search-svg" src="assets/search.svg"></button>
+    </header>
+    <form>
+      <h2>Title</h2>
+      <input type="text" id="title-input" class="foto-inputs"/>
+      <h2>Caption</h2>
+      <input type="text" id="caption-input" class="foto-inputs"/>  
+      <input type="file" class="file" accept="image/*">
+      <label for="file">Choose File</label>
+      <div class="view-add-btns">
+        <button disabled class="add-btn btn">Add to Album</button>
+        <button class="view-btn btn">View <span class="view-number">0</span> Favorites</button>
+      </div>
+    </form>
+    <section class="bottom">
+      <section class="fotos">
+        <h6 class="hidden none">Your photos will go here <|:)</h6>
+      </section>
+    </section>
+    <scripts>
+      <script type="text/javascript" src="photo.js"></script>
+      <script type="text/javascript" src="main.js"></script>
+    </scripts>
+  </body>
+</html>

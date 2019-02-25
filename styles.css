@@ -1,0 +1,215 @@
+body {
+  display: grid;
+  font-family: Open Sans;
+  grid-template-rows: 1fr 4fr 8fr;
+}
+
+header {
+  background-color: #3e2a35;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+}
+
+h1 {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: .3rem;
+  margin: 1% 0 0 2%;
+}
+
+.camera {
+  height: 38px;
+  margin: 0 8px -2px 3px;
+}
+
+.search {
+  border: solid 2px #C3B2B4;
+  border-radius: 3px;
+  height: 36px;
+  position: absolute;
+  right: 3%;
+  top: 18%;
+}
+
+#search {
+  padding: 10px;
+  width: 25%;
+}
+
+input::placeholder {
+  color: #928284;
+}
+
+#search-btn {
+  background-color: #C3B2B4;
+  padding: 4px;
+  width: 37px;
+}
+
+.search-svg {
+  height: 24px;
+}
+
+form {
+  background-color: #3e2a35;
+  color: #c2b2b4;
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+}
+
+h2 {
+  font-size: 1rem;
+  font-weight: 400;
+  grid-column: 2;
+}
+
+.foto-inputs {
+  border: none;
+  grid-column: 2;
+  height: 55px;
+}
+
+.file {
+  cursor: pointer;
+  height: 52px;
+  left: 16%;
+  opacity: 0;
+  position: absolute;
+  top: 56.5%;
+  width: 58.5%;
+}
+
+label {
+  background-color: #5b4447;
+  color: white;
+  grid-column: 2;
+  height: 36px;
+  margin: 45px 0;
+  padding: 20px 0 0 0;
+  text-align: center;
+}
+
+.view-add-btns {
+  display: flex;
+  grid-column: 2;
+  justify-content: center;
+}
+
+.btn {
+  background-color: #5b4447;
+  border: none;
+  color: white;
+  height: 50px;
+  margin: 0px 0 36px 0;
+  cursor: pointer;
+  width: 45%;
+}
+
+.add-btn {
+  margin: 0 10% 0 0;
+}
+
+.bottom {
+  background-color: #c2b2b4;
+  display: grid;
+  grid-template-columns: 10% 80% 10%;
+}
+
+.fotos {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.foto-card {
+  background-color: white;
+  color: #3E2A35;
+  height: 292px;
+  margin: 30px 1.7% 0;
+  overflow: hidden;
+  position: relative;
+  width: 20%;
+}
+
+.favorite-section {
+  background-color: #5B4447;
+  bottom: 0;
+  position: absolute;
+  width: 100%
+}
+
+.foto {
+  max-height: 176px;
+  width: 100%;
+}
+
+.foto-card {
+  word-break: break-all;
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 400;
+  margin: 10px;
+}
+
+.foto-caption {
+    position: absolute;
+    bottom: 37px;
+    left: 1%;
+}
+
+.foto-btn {
+  height: 25px;
+  padding: 10px 9px 6px;
+}
+
+.favorite {
+  position: absolute;
+  right: 1%;
+}
+
+.hidden {
+  display: none;
+}
+
+h6 {
+  color: #3E2A35;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+@media only screen and (max-width: 840px) {
+  header {
+    justify-content: center;
+  }
+
+  h1 {
+    font-size: 3.2rem;
+  }
+
+  .search {
+    left: 10%;
+    top: 63%;
+  }
+
+  #search {
+    width: 80%;
+  }
+
+  #search-btn {
+    left: 86%;
+  }
+
+  form {
+    grid-template-columns: 10% 80% 10%;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  h1 {
+    font-size: 9.5vw;
+  }
+}
