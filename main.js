@@ -1,12 +1,15 @@
-var add = document.querySelector('.add-btn');
-add.disabled = true;
-var view = document.querySelector('.view-btn');
+var searchInput = document.querySelector('#search');
+var searchBtn = document.querySelector('#search-btn');
 var titleInput = document.querySelector('#title-input');
 var captionInput = document.querySelector('#caption-input');
 var inputs = document.querySelectorAll('.foto-inputs');
 var fileInput = document.querySelector('.file');
 var favNum = document.querySelector('.view-number');
 var currentFavNum = 0;
+var add = document.querySelector('.add-btn');
+add.disabled = true;
+var view = document.querySelector('.view-btn');
+var showBtn = document.querySelector('#show-more');
 var fotoGallery = document.querySelector('.fotos');
 var fotosArr = JSON.parse(localStorage.getItem('stringFotos')) || [];
 var reader = new FileReader();
@@ -38,6 +41,8 @@ fotoGallery.addEventListener('focusout', editFotos);
 titleInput.addEventListener('keyup', disableButton);
 captionInput.addEventListener('keyup', disableButton);
 fileInput.addEventListener('change', disableButton);
+searchInput.addEventListener('input', searchFotos);
+showBtn.addEventListener('click', showMore);
 
 function loadFotos(array) {
   // refactor to .map()
@@ -49,10 +54,11 @@ function loadFotos(array) {
     fotosArr.push(newFoto);
     displayFoto(newFoto);
   });
+  hideFotos();
 }
 
 function saveFoto(e) {
-  e.preventDefault();
+  // e.preventDefault();
   var id = Date.now();
   var title = titleInput.value;
   var caption = captionInput.value;
@@ -78,7 +84,7 @@ function displayFoto(fotoObj) {
         <h3 class="foto-caption" contenteditable="true">${fotoObj.caption}</h3>
         <div class="favorite-section">
           <input type="image" src="assets/delete.svg" class="foto-btn" id="delete" alt="Delete">
-          ${fotoObj.favorite}<input type="image" src="assets/favorite.svg" class="foto-btn favorite" id="favorite" alt="Favorite">
+          <input type="image" src="assets/favorite.svg" class="foto-btn favorite" id="favorite" alt="Favorite">
           <input type="image" src="assets/favorite-active.svg" class="foto-btn favorite hidden" id="favorite-active" alt="Favorite">
         </div>
       </section>`
@@ -92,7 +98,9 @@ function readFoto(e) {
     reader.readAsDataURL(fileInput.files[0]); 
     reader.onload = saveFoto;
   }
-  document.location.reload()
+  if (!fotosArr.length) {
+    document.location.reload()
+  }
 }
 
 function clickHandler(e) {
@@ -111,7 +119,9 @@ function deleteFoto(e) {
   fotoCard.remove();
   var selectFoto = findFoto(fotoId)
   selectFoto.deleteFromStorage();
-  document.location.reload()
+  if (!fotosArr.length) {
+    document.location.reload()
+  }
 }
 
 function findFoto(fotoId) {
@@ -183,6 +193,48 @@ function noFotos() {
   } else {
     document.querySelector('.none').classList.add('hidden');
   }
+}
+
+function searchFotos() {
+  remove();
+  var searchValue = searchInput.value;
+  var searchResults = fotosArr.filter(function(foto){
+    return foto.title.toLowerCase().includes(searchValue.toLowerCase()) || foto.caption.toLowerCase().includes(searchValue.toLowerCase());
+  });
+  searchResults.forEach(function(element) {
+    displayFoto(element);
+  });
+}
+
+function hideFotos() {
+  var fotosShown = document.querySelectorAll('.foto-card');
+    for (var i = 10; i < fotosShown.length; i++) {
+      fotosShown[i].classList.add('hidden');
+  }
+  showBtn.innerText = 'show more!';
+}
+
+function showMore() {
+  var fotosShown = document.querySelectorAll('.foto-card');
+  for (var i = 10; i < fotosShown.length; i++)
+  if (showBtn.innerText === 'show more!') {
+    console.log('text should be show less');
+    showBtn.innerText = 'show less!';
+    fotosShown[i].classList.remove('hidden');
+  } else {
+    console.log('text should be show more');
+    showLess();
+    // showBtn.innerText = 'show more!';
+    // fotosShown[i].classList.add('hidden');
+  } 
+}
+
+function showLess() {
+  console.log('hey');
+  var fotosShown = document.querySelectorAll('.foto-card');
+  for (var i = 10; i < fotosShown.length; i++)
+  fotosShown[i].classList.add('hidden');
+  showBtn.innerText = 'show more!';
 }
   
 
