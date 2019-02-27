@@ -131,6 +131,7 @@ label {
   overflow: hidden;
   position: relative;
   width: 20%;
+  word-break: break-all;
 }
 
 .favorite-section {
@@ -143,10 +144,6 @@ label {
 .foto {
   max-height: 176px;
   width: 100%;
-}
-
-.foto-card {
-  word-break: break-all;
 }
 
 h3 {
@@ -162,13 +159,35 @@ h3 {
 }
 
 .foto-btn {
+  background-repeat: no-repeat;
+  cursor: pointer;
   height: 25px;
-  padding: 10px 9px 6px;
+  width: 25px;
+}
+
+.favorite-section {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+}
+
+.delete {
+  background-image: url('assets/delete.svg');
 }
 
 .favorite {
+  background-image: url('assets/favorite.svg')
+}
+
+.favorite-active {
+  background-image: url('assets/favorite-active.svg');
+}
+
+.favorite, 
+.favorite-active {
   position: absolute;
-  right: 1%;
+  right: 15%;
+  bottom: 15%;
 }
 
 .hidden {
