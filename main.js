@@ -5,7 +5,6 @@ var captionInput = document.querySelector('#caption-input');
 var inputs = document.querySelectorAll('.foto-inputs');
 var fileInput = document.querySelector('.file');
 var favNum = document.querySelector('.view-number');
-var currentFavNum = 0;
 var add = document.querySelector('.add-btn');
 add.disabled = true;
 var view = document.querySelector('.view-btn');
@@ -16,6 +15,8 @@ var reader = new FileReader();
 
 window.onload = loadFotos(fotosArr);
 window.onload = noFotos();
+window.onload = heartsPersist();
+window.onload = loadNumber(); 
 add.addEventListener('click', readFoto);
 fotoGallery.addEventListener('click', clickHandler);
 fotoGallery.addEventListener('focusout', editFotos);
@@ -23,7 +24,8 @@ titleInput.addEventListener('keyup', disableButton);
 captionInput.addEventListener('keyup', disableButton);
 fileInput.addEventListener('change', disableButton);
 searchInput.addEventListener('input', searchFotos);
-showBtn.addEventListener('click', showMore);
+showBtn.addEventListener('click', showMoreLess);
+view.addEventListener('click', viewFavorites);
 
 function loadFotos(array) {
   fotosArr = [];
@@ -32,16 +34,7 @@ function loadFotos(array) {
     fotosArr.push(newFoto);
     displayFoto(newFoto);
   });
-  var favoriteButtons = document.querySelectorAll('.favorite');
-  for (i=0; i < favoriteButtons.length; i++) {
-    console.log(JSON.parse(favoriteButtons[i].dataset.favorited))
-    if (JSON.parse(favoriteButtons[i].dataset.favorited)) {
-      favoriteButtons[i].classList.add('favorite-active');
-      console.log('test');
-    }
-
-  // hideFotos();
-  }
+  hideFotos();
 }
 
 function saveFoto(e) {
@@ -95,8 +88,8 @@ function clickHandler(e) {
     deleteFoto(e);
   }
   else if (e.target.classList.contains('favorite')) {
-    favoriteFoto(e);
-  }
+    favoriteFoto(e) && favoriteNumber(e);
+  } 
 }
 
 function deleteFoto(e) {
@@ -137,18 +130,7 @@ function favoriteFoto(e) {
   var selectFoto = findFoto(fotoId);
   var heartSelect = fotoCard.querySelector('.favoriteHeart')
   selectFoto.updateFavorite();
-  console.log(selectFoto.favorite);
   changeHeart(e, selectFoto);
-  if (!selectFoto.favorite) {
-    currentFavNum++;
-  } else {
-    currentFavNum--;
-  }
-  selectFoto.saveToStorage();
-}
-
-function favoriteNumber() {
-  favNum.innerText = currentFavNum;
 }
 
 function changeHeart(e, selectFoto) {
@@ -161,31 +143,46 @@ function changeHeart(e, selectFoto) {
   }
 }
 
-// function persistHeart(fotoArr) {
-//   console.log(fotoArr);
-//   heartArr = [];
-//   fotoArr.forEach(function(heart) {
-//     var favoriteHeart = heart.querySelector('.favorite');
-//     favoriteHeart.classList.add('.favorite-active');
-//   })
-// }
+function heartsPersist() {
+  var favoriteButtons = document.querySelectorAll('.favorite');
+  for (i=0; i < favoriteButtons.length; i++) 
+  if (JSON.parse(favoriteButtons[i].dataset.favorited)) {
+    favoriteButtons[i].classList.add('favorite-active');
+  }
+}
 
-// function displayHeart(fotoObj) {
-//   var fotoCard =  
-//     `<section class="foto-card" data-id="${fotoObj.id}">
-//       <div>
-//         <h3 class="foto-title" contenteditable="true">${fotoObj.title}</h3>
-//         <img class="foto" src=${fotoObj.file} />
-//         <h3 class="foto-caption" contenteditable="true">${fotoObj.caption}</h3>
-//       </div>
-//         <div class="favorite-section">
-//           <div class="foto-btn delete" alt="Delete"></div>
-//           <div class="foto-btn favorite-active" alt="Favorite"></div>
-//         </div>
-//       </section>`
-//   fotoGallery.insertAdjacentHTML('afterbegin', fotoCard);
-//   // persistHeart(fotoObj);
-// }
+function loadNumber() {
+  var favoriteNumber = document.querySelectorAll('.favorite-active').length;
+  favNum.innerText = favoriteNumber;
+}
+
+function viewFavorites(e) {
+  e.preventDefault();
+  var fotos = document.querySelectorAll('.foto-card');
+  fotos.forEach(function(foto) {
+    foto.classList.add('hidden')
+  })
+  var favoriteButtons = document.querySelectorAll('.favorite');
+  for (i=0; i < favoriteButtons.length; i++) 
+  if (favoriteButtons[i].classList.contains('favorite-active')) {
+    favoriteButtons[i].parentElement.parentElement.classList.remove('hidden');
+    view.innerText = 'Show All'
+  } else if (view.innerText = 'Show All') {
+    view.addEventListener('click', backToAll);
+  }
+}
+
+function backToAll(e) {
+  e.preventDefault();
+  var fotos = document.querySelectorAll('.foto-card');
+  for (i=0; i < fotos.length; i++) 
+  if (view.innerText = 'Show All') {
+    fotos[i].classList.remove('hidden');
+    view.innerHTML = `<button class="view-btn btn">View <span class="view-number">0</span> Favorites</button>`;
+    view.addEventListener('click', viewFavorites);
+  }
+}
+
 
 function disableButton() {
     if (!titleInput.value || !captionInput.value || !fileInput.value) {
@@ -214,62 +211,27 @@ function searchFotos() {
   });
 }
 
-function hideFotos() {
+function showMoreLess() {
   var fotosShown = document.querySelectorAll('.foto-card');
-    for (var i = 10; i < fotosShown.length; i++) {
-      fotosShown[i].classList.add('hidden');
+  if (showBtn.innerText === 'show less!') {
+    hideFotos();
+    showBtn.innerText = 'show more!';
+  } else if (fotosShown.length > 10) {
+    showFotos();
+    showBtn.innerText = 'show less!'
   }
-  showBtn.innerText = 'show more!';
 }
 
-function showMore() {
-  var fotosShown = document.querySelectorAll('.foto-card');
-  for (var i = 10; i < fotosShown.length; i++)
-  if (showBtn.innerText === 'show more!') {
-    console.log('text should be show less');
-    showBtn.innerText = 'show less!';
-    fotosShown[i].classList.remove('hidden');
-  } else {
-    console.log('text should be show more');
-    showLess();
-    // showBtn.innerText = 'show more!';
-    // fotosShown[i].classList.add('hidden');
-  } 
-}
-
-function showLess() {
-  console.log('hey');
+function hideFotos() {
   var fotosShown = document.querySelectorAll('.foto-card');
   for (var i = 10; i < fotosShown.length; i++)
   fotosShown[i].classList.add('hidden');
   showBtn.innerText = 'show more!';
 }
-  
 
-// function disableButton(button) {
-//   console.log('disabled');
-//   button.disabled = true;
-// }
-
-// function enableButton(button) {
-//   button.disabled = false;
-// }
-
-// function addPhoto(fotoObj) {
-//   var id = Date.now();
-//   var title = titleInput.value;
-//   var caption = captionInput.value;
-//   var file = fotoObj.target.result; 
-//   var newFoto = new Foto(id, title, caption, file);
-//   fotoGallery.innerHTML += `<section class="foto-card" data-id="${fotoObj.id}">
-//           <h3 class="foto-title" contenteditable="true">${fotoObj.title}</h3>
-//           <h4 class="foto-caption" contenteditable="true">${fotoObj.caption}</h4>
-//           <img src=${fotoObj.file} />
-//           <div class="favorite-section">
-//             <input type="image" src="assets/delete.svg" class="foto-btn" id="delete" alt="Delete">
-//             <input type="image" src="assets/favorite.svg" class="foto-btn favorite" id="favorite" alt="Favorite">
-//           </div>
-//         </section>`;
-//   fotosArr.push(newFoto)
-//   newFoto.saveToStorage(fotosArr)
-// }
+function showFotos() {
+  var fotosShown = document.querySelectorAll('.foto-card');
+    for (var i = 10; i < fotosShown.length; i++) {
+      fotosShown[i].classList.remove('hidden');
+    }
+}
