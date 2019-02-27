@@ -6,8 +6,6 @@ body {
 
 header {
   background-color: #3e2a35;
-  display: flex;
-  flex-direction: row;
   position: relative;
 }
 
@@ -38,14 +36,23 @@ h1 {
   width: 25%;
 }
 
+#search:focus {
+  outline-color: #3e2a35;
+}
+
 input::placeholder {
   color: #928284;
 }
 
 #search-btn {
   background-color: #C3B2B4;
+  cursor: pointer;
   padding: 4px;
   width: 37px;
+}
+
+#search-btn:focus {
+  outline-color: #3e2a35; 
 }
 
 .search-svg {
@@ -69,6 +76,10 @@ h2 {
   border: none;
   grid-column: 2;
   height: 55px;
+}
+
+.foto-inputs {
+  outline-color: #3e2a35;
 }
 
 .file {
@@ -101,10 +112,14 @@ label {
   background-color: #5b4447;
   border: none;
   color: white;
+  cursor: pointer;
   height: 50px;
   margin: 0px 0 36px 0;
-  cursor: pointer;
   width: 45%;
+}
+
+.btn:focus {
+  outline-color: #3e2a35;
 }
 
 .add-btn {
@@ -148,14 +163,14 @@ label {
 
 h3 {
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 600;
   margin: 10px;
 }
 
 .foto-caption {
-    position: absolute;
-    bottom: 37px;
-    left: 1%;
+   position: absolute;
+   bottom: 40px;
+   left: 1%;
 }
 
 .foto-btn {
@@ -175,12 +190,24 @@ h3 {
   background-image: url('assets/delete.svg');
 }
 
+.delete:hover {
+  background-image: url('assets/delete-active.svg');
+}
+
 .favorite {
   background-image: url('assets/favorite.svg')
 }
 
+.favorite:hover {
+  background-image: url('assets/favorite-active.svg')
+}
+
 .favorite-active {
   background-image: url('assets/favorite-active.svg');
+}
+
+.favorite-active:hover {
+  background-image: url('assets/favorite.svg');
 }
 
 .favorite, 
@@ -211,6 +238,10 @@ h6 {
 }
 
 @media only screen and (max-width: 840px) {
+  body {
+    grid-template-rows: 0.7fr 2fr 8fr;
+  }
+
   header {
     justify-content: center;
   }
@@ -234,6 +265,32 @@ h6 {
 
   form {
     grid-template-columns: 10% 80% 10%;
+  }
+
+  .fotos {
+    justify-content: center;
+  }
+
+  .foto-card {
+    width: 46%;
+  }
+
+  #show-more {
+  width: 77%;
+  }
+}
+
+@media only screen and (max-width: 540px) {
+  body {
+    grid-template-rows: 0.2fr 0.5fr 4fr;
+  }
+
+  .foto-card {
+    width: 70%;
+  }
+
+  #show-more {
+  width: 56%;
   }
 }
 
