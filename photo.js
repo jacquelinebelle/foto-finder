@@ -4,16 +4,9 @@ class Foto {
     this.title = title;
     this.caption = caption;
     this.file = file;
-    this.favorite = false;
+    this.favorite = favorite || false;
   }
   saveToStorage() {
-    // this === the photo save 
-    // called on single photo
-
-    // take all existing photos in ls, parse to JS array
-    // find photo that is the photo the func is calle on (this)
-    // save new copy (replace)
-    // save modificed array to ls
     var stringFotos = JSON.stringify(fotosArr);
     localStorage.setItem('stringFotos', stringFotos);
   }
